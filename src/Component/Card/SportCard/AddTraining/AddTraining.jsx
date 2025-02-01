@@ -7,7 +7,7 @@ import PopupAdditInfoTraining from './PopupAddTraining/PopupAdditInfoTraining/Po
 export default function AddTraining() {
     //Добавить после добавления тренировки ввод данных для доп инфы(смотреть пример данных в профиле)
     const openPopup = () => {
-        document.getElementsByClassName(`${stylesPopup.popup}`)[0].style.display = 'block';
+        document.getElementById(`${stylesPopup.popup}`).style.display = 'block';
     }
     const [body, setBody] = useState({})
 
@@ -23,7 +23,7 @@ export default function AddTraining() {
                     <button className={styles.button} onClick={openPopup}>Открыть</button>
                 </div>
             </div>
-            <PopupAddTraining setBody={setBody}/>
+            <PopupAddTraining body={body} setBody={setBody}/>
             <PopupAdditInfoTraining body={body} setBody={setBody}/>
         </>
     )

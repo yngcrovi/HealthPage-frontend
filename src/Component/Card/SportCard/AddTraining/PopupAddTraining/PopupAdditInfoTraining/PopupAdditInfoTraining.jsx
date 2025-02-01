@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { addTrainingURL } from '../../../../../../URL/URL';
 import makeRequest from '../../../../../../Request/makeRequest';
 
-export default function PopupAdditInfoTraining(obj) {
+export default function PopupAdditInfoTraining({body, setBody}) {
     const [stateDate, setStateDate] = useState(false)
 
 
@@ -52,13 +52,13 @@ export default function PopupAdditInfoTraining(obj) {
             'comment': comment
 
         }
-        let body_2 = {
-            'training_data': obj.body,
-            'addit_info_training_data': body
-        }
-        console.log(body_2)
-        await makeRequest(addTrainingURL, 'POST', body_2)
-        console.log(obj.body, body)
+        // let body_2 = {
+        //     'training_data': obj.body,
+        //     'addit_info_training_data': body
+        // }
+        // console.log(body_2)
+        // await makeRequest(addTrainingURL, 'POST', body_2)
+        // console.log(obj.body, body)
     }
 
     return (
