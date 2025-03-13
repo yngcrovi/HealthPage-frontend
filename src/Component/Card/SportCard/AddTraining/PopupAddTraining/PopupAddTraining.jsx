@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import styles from './PopupAddTraining.module.css'
 import stylesPopup from './PopupAdditInfoTraining/PopupAdditInfoTraining.module.css'
 import CloseIcon from '@mui/icons-material/Close';
+import { requestGET } from '../../../../../Request/makeRequest';
+import { getLoadTypeFromDbURL } from '../../../../../URL/URL';
 // import AddExercise from '../../AddExercise/AddExercise';
 
 export default function PopupAddTraining({body, setBody}) {
@@ -10,18 +12,24 @@ export default function PopupAddTraining({body, setBody}) {
     const [partOfBody, setPartOfBody] = useState([])
     const [partOfMuscle, setPartOfMuscle] = useState([  ])
     const [exercise, setExercise] = useState([])
-    const [approachNumber, setApproachNumber] = useState([[0]])
+    const [approachNumber, setApproachNumber] = useState([[null]])
     const [weight, setWeight] = useState([])
     const [typeWeight, setTypeWeight] = useState(['kg'])
+    let ltFormDb = []
+    let pobFromDb = []
 
 
     useEffect(() => {
-        console.log("Новое значение:", body);
+        // console.log("Новое значение:", body);
     }, [body]);
 
-    const getLoadType = (event) => {
-        
+    const getLoadType = async () => {
+        console.log('Начинаем')
+        pobFromDb = await requestGET(getLoadTypeFromDbURL)
+        console.log(pobFromDb)
     }
+
+    
 
     const paintWriteField = (event, funcHook, i, boolArr, arr, j = null) => {
         if (boolArr){
@@ -29,8 +37,8 @@ export default function PopupAddTraining({body, setBody}) {
             if (j == null){
                 console.log(helpArr)
                 helpArr[i] = Number.isInteger(Number(event.target.value)) ? Number(event.target.value) : helpArr[i] = event.target.value
-                console.log(helpArr)
             }else{
+                console.log(event.target.getAttribute('class'))
                 helpArr[i][j] = Number(event.target.value)
             }
             funcHook(helpArr)
@@ -47,9 +55,9 @@ export default function PopupAddTraining({body, setBody}) {
         setApproachNumber(helpArr)
     }
 
-    const AddExercise = (i) => {
+    const AddExercise = () => {
         setQuantityxercise([...quantityExercise, 1])
-        setApproachNumber([...approachNumber, [0]])
+        setApproachNumber([...approachNumber, [null]])
         setTypeWeight([...typeWeight, 'kg'])
         setPartOfMuscle([...partOfMuscle, ''])
     }
@@ -79,6 +87,39 @@ export default function PopupAddTraining({body, setBody}) {
             'type_weight': typeWeight,
             'approach_number': approachNumber
         })
+
+        const arrPOB = Array.from(document.getElementsByClassName(`${styles.selectPOB}`))
+
+        const arrWeight = Array.from(document.getElementsByClassName(`${styles.inputWeight}`))
+        const arrAppNum = Array.from(document.getElementsByClassName(`${styles.inputAN}`))
+
+        arrPOB.forEach(cell => {
+            console.log(cell.getAttribute('hidden'))
+            if (!cell.value){
+                cell.style.border = '2px solid red';  
+                error = true
+            }
+        })
+
+        arrWeight.forEach(cell => {
+            if (!cell.value){
+                cell.style.border = '2px solid red';  
+                error = true 
+            }
+        })
+
+        arrAppNum.forEach((cell, i) => {
+            if (!cell.value){
+                cell.style.border = '2px solid red';  
+                error = true
+            }
+        });
+
+
+
+        
+
+
  
         // if(error){
         //     return
@@ -113,7 +154,7 @@ export default function PopupAddTraining({body, setBody}) {
                         id={styles.selectLT}
                         className={styles.selectLT}
                         onChange={(event) => {
-                            getLoadType(event)
+                            getLoadType()
                             paintWriteField(event, setLoadType)
                         }}
                     >
@@ -202,7 +243,6 @@ export default function PopupAddTraining({body, setBody}) {
                             <input 
                                 className={styles.inputAN} 
                                 type='number'
-                                id={'ap' + `${i+1}` + `${j+1}`}
                                 onInput={(event) => {
                                     paintWriteField(event, setApproachNumber, i, true, approachNumber, j)
                                 }}
@@ -223,9 +263,7 @@ export default function PopupAddTraining({body, setBody}) {
                     {
                         i + 1 == quantityExercise.length &&
                         <>
-                        <button className={styles.buttonAddExercise} onClick={(i) => {
-                            AddExercise(i)
-                        }}>+</button>
+                        <button className={styles.buttonAddExercise} onClick={AddExercise}>+</button>
                     {
                         i > 0 &&
                         <>

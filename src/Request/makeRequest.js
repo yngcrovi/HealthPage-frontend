@@ -1,7 +1,10 @@
 import { refreshAccessURL } from "../URL/URL";
 
 export default async function makeRequest(url, method, body){
-
+    //Прописать и продумать логику запросов вместе с тем, что человек может быть неавторизован и нужно сделать повторный запрос
+    if (method == 'GET'){
+        
+    }
 }
 
 export async function requestGET(url) {
