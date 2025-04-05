@@ -27,6 +27,7 @@ export default function PopupAddTraining({body, setBody}) {
         console.log('Начинаем')
         pobFromDb = await makeRequest(getLoadTypeURL, 'GET')
         console.log(pobFromDb)
+        console.log(1)
     }
 
     
