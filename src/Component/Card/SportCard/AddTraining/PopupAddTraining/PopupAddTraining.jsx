@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import styles from './PopupAddTraining.module.css'
 import stylesPopup from './PopupAdditInfoTraining/PopupAdditInfoTraining.module.css'
 import CloseIcon from '@mui/icons-material/Close';
-import { requestGET } from '../../../../../Request/makeRequest';
-import { getLoadTypeFromDbURL } from '../../../../../URL/URL';
+import makeRequest, { requestGET } from '../../../../../Request/makeRequest';
+import { getLoadTypeURL } from '../../../../../URL/URL';
 // import AddExercise from '../../AddExercise/AddExercise';
 
 export default function PopupAddTraining({body, setBody}) {
@@ -25,7 +25,7 @@ export default function PopupAddTraining({body, setBody}) {
 
     const getLoadType = async () => {
         console.log('Начинаем')
-        pobFromDb = await requestGET(getLoadTypeFromDbURL)
+        pobFromDb = await makeRequest(getLoadTypeURL, 'GET')
         console.log(pobFromDb)
     }
 

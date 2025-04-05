@@ -1,10 +1,25 @@
 import { refreshAccessURL } from "../URL/URL";
 
 export default async function makeRequest(url, method, body){
-    //Прописать и продумать логику запросов вместе с тем, что человек может быть неавторизован и нужно сделать повторный запрос
-    if (method == 'GET'){
-        
+    let request
+    switch (method) {
+        case 'GET':
+            console.log("Запрос на подачу")
+            request = await requestGET(url)
+            break;
+        case 'POST':
+            request = null
+            break;
     }
+    switch (request.status) {
+        case 200:
+            break;
+        case 401:
+            console.log("Запрос на рефреш")
+            await requestRefreshAccess()
+            request = await requestGET(url)
+    }
+    return request
 }
 
 export async function requestGET(url) {

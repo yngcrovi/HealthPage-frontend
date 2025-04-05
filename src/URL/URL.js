@@ -17,4 +17,4 @@ export var refreshAccessURL = domen + '/refresh_access'
 
 //sport endpoint
 export var addTrainingURL = domen + '/add_training'
-export const getLoadTypeFromDbURL = domen + '/get_load_type'
+export const getLoadTypeURL = domen + '/get_load_type'
